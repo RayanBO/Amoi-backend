@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const routes = require('./routes');
 const usersRouter = require('./routes/users');
+const messagesRouter = require('./routes/messages');
 
 const { setupSocket } = require('./socketHandlers');
 
@@ -29,6 +30,7 @@ app.use(cors(corsOptions));
 
 app.use('/', routes);
 app.use('/users', usersRouter);
+app.use('/sms', messagesRouter);
 
 
 const server = http.createServer(app);

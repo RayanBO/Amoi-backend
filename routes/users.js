@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
 
 // READ - Get all users
 router.get('/', (req, res) => {
-    const query = 'SELECT * FROM users';
+    const query = 'SELECT * FROM users WHERE isactif > 0';
     db.all(query, (err, results) => {
         if (err) {
             res.status(500).json({ error: err.message });
