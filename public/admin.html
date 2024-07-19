@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Administrateur</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/assets/antd.css">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .ant-layout {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ant-layout-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .insize {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .fixed-width-input {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ant-layout">
+        <header class="ant-layout-header" style="background: #fff; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0;">Administrateur</h2>
+                <p style="margin: 0;">Dashbord admin</p>
+            </div>
+        </header>
+        <div class="ant-layout-content">
+            <!-- Afficher les informations du socket -->
+            <div id="socketInfo" class="ant-card ant-card-bordered" style="margin-bottom: 20px;">
+                <div class="ant-card-body">
+                    <h3 class="ant-typography">Mes Informations</h3>
+                    <div class="ant-descriptions ant-descriptions-bordered">
+                        <div class="ant-descriptions-view">
+                            <table>
+                                <tbody>
+                                    <tr class="ant-descriptions-row">
+                                        <th class="ant-descriptions-item-label">ID</th>
+                                        <td class="ant-descriptions-item-content"><span id="socketId"></span></td>
+                                    </tr>
+                                    <tr class="ant-descriptions-row">
+                                        <th class="ant-descriptions-item-label">Nom Complet</th>
+                                        <td class="ant-descriptions-item-content">
+                                            <!-- <span id="socketFullname"></span> -->
+                                            <div class="insize">
+                                                <input id="fullname" type="text" placeholder="Entrez votre nom complet"
+                                                    class="ant-input fixed-width-input">
+                                                <button onclick="updateFullname()"
+                                                    class="ant-btn ant-btn-primary">Mettre à jour le nom
+                                                    complet</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ de saisie pour mettre à jour le fullname -->
+
+            <!-- Champ de saisie pour envoyer un coucou à un socket spécifique -->
+            <div class="insize">
+                <input id="targetSocketId" type="text" placeholder="Entrez l'ID du socket"
+                    class="ant-input fixed-width-input">
+                <button onclick="sendCoucouToSpecific()" class="ant-btn ant-btn-primary">Envoyer un coucou à cet
+                    ID</button>
+            </div>
+
+            <!-- Liste des clients connectés -->
+            <h3 class="ant-typography">Clients Connectés</h3>
+            <div id="connections"></div>
+        </div>
+    </div>
+
+    <script src="/admin.js"></script>
+</body>
+
+</html>
