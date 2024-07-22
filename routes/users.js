@@ -1,18 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../database');
+const { v4: uuidv4 } = require('uuid');
 
 // CREATE - Add a new user
 router.post('/', (req, res) => {
-    const { nom, email, password } = req.body;
-    const query = 'INSERT INTO users (nom, email, password) VALUES (?, ?, ?)';
-    db.run(query, [nom, email, password], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.status(201).json({ message: 'User created successfully', userId: result.insertId });
-    });
+    const { nom, login, password } = req.body;
+    const code = uuidv4()
+    db.get('SELECT count(*) as c FROM users WHERE login = ? ', [login], (e, row) => {
+        if (e) return res.status(500).send({ message: 'Erreur de créeation ' });
+        if (row.c > 0) return res.status(409).send({ message: 'Login déja pris' })
+
+        const query = 'INSERT INTO users (nom, login, password, isactif, code) VALUES (?, ?, ?, 1, ?)';
+        db.run(query, [nom, login, password, code], (err) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.status(201).json({ message: 'Success' });
+        });
+    })
 });
 
 // READ - Get all users

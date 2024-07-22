@@ -14,11 +14,12 @@ router.get('/test', (req, res) => {
 
 router.post('/login', (req, res) => {
     const { login, password } = req.body;
-    authenticateUser(login, password, (err, user) => {
+    authenticateUser(login, (err, user) => {
         if (err || !user) {
-            res.status(401).json({ message: 'Authentication failed' });
+            res.status(401).json({ message: 'Compte inconnue !' });
         } else {
-            res.status(200).json({ message: 'Authentication successful', user: user });
+            if (user.password !== password) return res.status(401).json({ message: 'Mot de passe incorrect !' })
+            res.status(200).json({ message: 'success', user: user });
         }
     });
 });

@@ -23,8 +23,8 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 // Fonction pour vérifier les informations de connexion
-function authenticateUser(login, password, callback) {
-    db.get(`SELECT * FROM users WHERE login = ? AND password = ? AND isactif = 1`, [login, password], (err, row) => {
+function authenticateUser(login, callback) {
+    db.get(`SELECT * FROM users WHERE login = ? AND isactif = 1`, [login], (err, row) => {
         if (err) {
             console.error('Erreur lors de l\'authentification de l\'utilisateur', err.message);
             callback(err);
